@@ -7,6 +7,8 @@ function AddWilder({ onSuccess }) {
   const {
     inputCity,
     inputName,
+    inputSkill,
+    inputVote,
     formSubmission,
     loading,
     delayed,
@@ -28,6 +30,20 @@ function AddWilder({ onSuccess }) {
         type="text"
         placeholder="Type the city"
         {...inputCity}
+      />
+      <Label htmlFor="city-input">Skill :</Label>
+      <Input
+        id="skill-input"
+        type="text"
+        placeholder="Type the skill"
+        {...inputSkill}
+      />
+      <Label htmlFor="city-input">Vote :</Label>
+      <Input
+        id="vote-input"
+        type="text"
+        placeholder="Type the skill"
+        {...inputVote}
       />
       {error !== "" && <Error>{error}</Error>}
       <Button disabled={loading} showLoading={loading && !delayed}>

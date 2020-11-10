@@ -1,9 +1,9 @@
 import React from "react";
-import blank_profile from "./icons/blank-profile-picture-female.png";
 import Skill from "./Skill";
 import { Card, List } from "./styles/elements";
+import blank_profile from "./icons/blank-profile-picture-female.png";
 
-function Wilder({ city, justAdded, name, skills }) {
+function Wilder({ _id, city, justAdded, name, skills, deleteWilder }) {
   return (
     <Card newCard={justAdded}>
       <img src={blank_profile} alt={`${name} Profile`} />
@@ -16,6 +16,7 @@ function Wilder({ city, justAdded, name, skills }) {
           <Skill key={skill._id} {...skill} />
         ))}
       </List>
+      <button onClick={() => deleteWilder(_id)}>Delete</button>
     </Card>
   );
 }

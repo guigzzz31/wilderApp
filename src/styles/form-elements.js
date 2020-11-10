@@ -73,11 +73,11 @@ color: #fff;
 `;
 
 export const Success = styled.p`
-  background-color: green;
+  background-color: ${colors.success};
   ${messageStyle}
 `;
 
 export const Error = styled.p`
-  background-color: red;
+  background-color: ${colors.error};
   ${messageStyle}
 `;

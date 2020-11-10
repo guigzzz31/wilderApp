@@ -1,9 +1,14 @@
-import React, { useReducer } from "react";
-import "./App.css";
-import Wilder from "./Wilder";
-import AddWilder from "./AddWilder";
+import React, { useEffect, useReducer } from "react";
 import appReducer from "./reducers/appReducer";
 import AppContext from "./context/AppContext";
+import axios from "axios";
+//methods
+import useFetchWilders from "./hooks/useFetchWilders";
+//components
+import Wilder from "./Wilder";
+import AddWilder from "./AddWilder";
+//style
+import "./App.css";
 import { Success } from "./styles/form-elements";
 import {
   CardRow,
@@ -12,9 +17,11 @@ import {
   Header,
   ShowButton,
 } from "./styles/elements";
+//icons
 import { ReactComponent as PlusCircle } from "./icons/add-circle.svg";
 import { ReactComponent as MinusCircle } from "./icons/minus-circle.svg";
-import useFetchWilders from "./hooks/useFetchWilders";
+import { colors } from "./styles/globals";
+import useDeleteWilder from "./hooks/useDeleteWilder";
 
 const initialState = {
   showAddForm: false,
@@ -24,8 +31,28 @@ const initialState = {
 
 function App() {
   const [state, dispatch] = useReducer(appReducer, initialState);
+  const { wilders, showAddForm, successMessage } = state;
+  // const deleteWilder = async (id) => {
+  //   try {
+  //     let result = await axios.delete(`/api/wilders/${id}`, {
+  //       id: id,
+  //     });
+  //     if (result.data.success) {
+  //       console.log(result.data.result);
+  //       dispatch({
+  //         type: "WILDER_DELETED",
+  //         deletedWilder: result.data.result,
+  //         wilders: wilders.splice(
+  //           wilders.findIndex((w) => (w._id = id)),
+  //           1
+  //         ),
+  //       });
+  //     }
+  //   } catch (error) {
+  //     console.log(error);
+  //   }
+  // };
   useFetchWilders(dispatch);
-
   return (
     <div>
       <Header>
@@ -38,21 +65,19 @@ function App() {
           <ShowButton
             onClick={() => dispatch({ type: "TOGGLE_SHOW_ADD_FORM" })}
           >
-            {state.showAddForm ? <MinusCircle /> : <PlusCircle />}
+            {showAddForm ? <MinusCircle /> : <PlusCircle />}
           </ShowButton>
-          {state.showAddForm ? (
+          {showAddForm ? (
             <AddWilder />
           ) : (
-            state.successMessage !== "" && (
-              <Success>{state.successMessage}</Success>
-            )
+            successMessage !== "" && <Success>{successMessage}</Success>
           )}
         </AppContext.Provider>
       </Container>
       <Container>
         <h2>Wilders</h2>
         <CardRow>
-          {state.wilders.map((wilder) => (
+          {wilders.map((wilder) => (
             <Wilder key={wilder._id} {...wilder} />
           ))}
         </CardRow>
